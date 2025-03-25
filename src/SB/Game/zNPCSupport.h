@@ -97,10 +97,10 @@ struct Firework
         en_fwstyle fwstyle : 8;
         S32 flg_firework : 16; //0x2
     };
-    F32 tym_lifespan;
-    F32 tmr_remain; //0x14?
-    xVec3 pos;
-    xVec3 vel;
+    F32 tym_lifespan; //0x4
+    F32 tmr_remain; //0x8
+    xVec3 pos; //0xC
+    xVec3 vel; //0x18
 
     void FlyFlyFly(F32 dt);
     void Update(F32 dt);

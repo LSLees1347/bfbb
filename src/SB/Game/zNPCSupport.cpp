@@ -11,6 +11,7 @@
 NPCWidget g_npc_widgets[1] = {};
 static U32 g_hash_uiwidgets[1];
 static char* g_strz_uiwidgets[1] = {};
+static Firework g_fireworks[32];
 
 void NPCSupport_Startup()
 {
@@ -106,6 +107,7 @@ void NPCWidget::Reset()
 
 void NPCWidget_ScenePostInit()
 {
+    g_npc_widgets->Init(NPC_UI_WIDGETS_unk);
 }
 
 void NPCWidget_Find(en_NPC_UI_WIDGETS)
@@ -125,6 +127,8 @@ void NPCTarget::TargetClear()
 
 void NPCBlinker::Reset()
 {
+    this->tmr_uvcell = -1.0f;
+    this->idx_uvcell = 0;
 }
 
 void Firework_Release(Firework* firework)
@@ -148,8 +152,18 @@ void Firework::Cleanup()
 {
 }
 
-void Firework_SceneReset(int)
+void Firework_SceneReset(S32 a)
 {
+    S32 iVar1;
+
+    iVar1 = 0;
+    do {
+        if ((a != 0) && (g_fireworks[iVar1].fwstate != FW_STAT_UNUSED)) {
+         Firework_Release(&g_fireworks[iVar1]);
+       }
+       g_fireworks[iVar1].fwstate = FW_STAT_UNUSED;
+       iVar1 = iVar1 + 1;
+     } while (iVar1 < 32);
 }
 
 void Firework_Timestep(F32 dt)
